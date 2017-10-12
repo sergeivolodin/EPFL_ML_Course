@@ -56,7 +56,7 @@ def bias_variance_decomposition_visualization(degrees, rmse_tr, rmse_te):
         linestyle="-",
         label='test',
         linewidth=3)
-    plt.ylim(0.2, 0.7)
+    plt.ylim(0, 0.7)
     plt.xlabel("degree")
     plt.ylabel("error")
     plt.title("Bias-Variance Decomposition")
