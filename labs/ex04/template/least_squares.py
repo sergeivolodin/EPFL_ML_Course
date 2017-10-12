@@ -10,8 +10,11 @@ import numpy as np
 def least_squares(y, tx):
     """calculate the least squares."""
     # ***************************************************
-    # INSERT YOUR CODE HERE
-    # least squares: TODO
-    # returns mse, and optimal weights
+    # returns mse, optimal weights
     # ***************************************************
-    raise NotImplementedError
+
+    N = tx.shape[0]
+    w = np.linalg.pinv(tx.T @ tx) @ tx.T @ y
+    e = y - tx @ w
+    mse = 1. / 2 / N * e.T @ e
+    return mse, w
