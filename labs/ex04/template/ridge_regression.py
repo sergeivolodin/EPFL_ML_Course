@@ -9,8 +9,7 @@ import numpy as np
 
 def ridge_regression(y, tx, lambda_):
     """implement ridge regression."""
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # ridge regression: TODO
-    # ***************************************************
-    raise NotImplementedError
+    N = tx.shape[0]
+    w = np.linalg.pinv(tx.T @ tx + lambda_ * (2. * N) * np.eye(tx.shape[1])) @ tx.T @ y
+    e = y - tx @ w
+    return w
