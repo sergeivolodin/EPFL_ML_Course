@@ -8,6 +8,7 @@
 \usepackage[utf8]{inputenc}
 \newcommand{\myvector}[1]{{\bf{#1}}}
 \newcommand{\x}{\myvector{x}}
+\newcommand{\y}{\myvector{y}}
 \newcommand{\w}{\myvector{w}}
 \newcommand{\uu}{\myvector{u}}
 \newcommand{\vv}{\myvector{v}}
@@ -47,7 +48,7 @@ $f$~--- strictly convex $\Rightarrow$ $\exists !$ global inf.
 
 \mytitle{Optimization}
 Optimization problem:
-$$\inf\limits_{\w}L(\w)$$ Grid search.\\
+$\inf\limits_{\w}L(\w)$. Grid search.\\
 {\bf GD:} $O(N\cdot D)$, $\w^{(t+1)}=\w^{(t)}-\gamma\nabla L(\w^{(t)})$\\
 $L(\w)=\frac{1}{N}\sum\limits_{n=1}^N L_n(\w)$\\
 {\bf SGD:} $O(D)$, $\w^{(t+1)}=\w^{(t)}-\gamma\nabla L_n(\w^{(t)})$\\
@@ -61,11 +62,33 @@ $\exists!$ subgradient $\nabla L(\w)$
 Convex set. Projection. Proj. GD. Constrainted $\rightarrow$ unconstr. problem. Line search. Feature normalization. 
 
 \mytitle{Least Squares}
+Norm. eqs: $\nabla L(\w)=0=-\frac{1}{N}X^T(y-Xw)$
+$\Rightarrow$ $\w^*=(X^TX)^{-1}X^T\myvector{y}$
+
 \mytitle{Ill-conditioning}
+$D>N$ no inverse\\
+Columns of $X$ are $\approx$ collin. $\Rightarrow$ SVD
+
 \mytitle{Max Likelihood}
+(MSE) $y_n=\x_n^T\w+\varepsilon_n$, $\varepsilon_n\sim N(0, \sigma^2)$\\
+$p(\y|X,\w)=\prod\limits_{n=1}^NN(y_n|\x_n^Tw,\sigma^2)$,\\
+$L_{\mbox{\tiny LL MLE}}=\log p(\y|X,\w)\approx \mathbb{E}\log p(y|\x,\w)$ $\Rightarrow$\\
+$\arg\max L_{\mbox{\tiny LL MLE}}=\arg\min L_{\mbox{\tiny MSE}}$
+
 \mytitle{Overfitting}
+Overfit: too complex model, fit the noise\\
+Underfit: no good model in the set\\
+Both bad. Polynomial basis example
+
+Reg.: $\min\limits_\w L(\w)+\Omega(\w)$, last for complexity.\\
+L2: $+\lambda \|\w\|_2^2$
+
 \mytitle{Ridge Regression}
+$\w^*=(X^TX+\lambda'I)^{-1}X^T\y$, $2N\lambda=\lambda'$
+
 \mytitle{Lasso}
+$\Omega(\w)=\lambda \|w\|_1=\lambda\sum |w_i|$ $\Rightarrow$ sparse solution
+
 \mytitle{Cross-Validation}
 \mytitle{Bias-Variance decomposition}
 \mytitle{Classification}
