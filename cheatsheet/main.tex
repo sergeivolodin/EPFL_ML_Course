@@ -104,11 +104,66 @@ $\Omega(\w)=\lambda \|w\|_1=\lambda\sum |w_i|$ $\Rightarrow$ sparse solution
 \mytitle{Text Representation Learning}
 \mytitle{SVD and PCA}
 \mytitle{NNs: Basics}
+$x_j^{(l)}=\phi\left(\sum\limits_iw_{ij}^{(l)}x_i^{(l-1)}+b_j^{(l)}\right)$\\
+Sigmoid: $\phi(x)=(1+\exp(-x))^{-1}$\\
+
 \mytitle{NNs: Representation Power}
+Approximation: Riemann integral (avg, stepwise, towers), Fourier transform smoothness
+
 \mytitle{NNs: Backpropagation, Activation Functions}
-\mytitle{NNs: CNN, Regularization, Data Augmentation, Dropout}
+$z^({l})=(W^{(l)})^Tx^{(l-1)}+b^{(l)}$, $\x^{(l)}=f^({l})(x^({l-1}))=\phi(z^{(l)})$\\
+$\delta_j^{(l)}=\frac{\partial L_n}{\partial z_j^{(l)}}$, $\delta^{(l)}=W^{(l+1)}\delta^{(l+1)}\odot \phi'(z^{(l)})$\\
+$\delta^{(L+1)}=-2(y_n-x^{(L+1)})\phi'(z^{(L+1)})$\\
+$\frac{\partial L_n}{\partial w_{ij}^{(l)}}=\delta^{(l)}_jx_i^{(l-1)}$,
+$\frac{\partial L_n}{\partial b_{j}^{(l)}}=\delta^{(l)}_j$.
+
+Tanh: $\tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$\\
+ReLU: $(x)_+=\max\{0, x\}$\\
+Leaky ReLU: $f(x)=\max\{\alpha x, x\}$
+Maxout: $f(x)=\max\{x^Tw_1+b_1,...,x^Tw_k+b_k\}$
+
+\mytitle{NNs: CNN}
+Conv. 1D: $x^{(1)}[n]=\sum\limits_kf[k]x^{(0)}[n-k]$
+Conv. 2D: $x^{(1)}[n,m]=\sum\limits_{k,l}f[k,l]x^{(0)}[n-k,m-l]$\\
+Zero (add virtual zeros) and valid (reduce out size) padding\\
+Channels.\\
+FFT $\Rightarrow$ faster convolution sometimes\\
+
+\mytitle{NNs: Regularization}
+$\Omega(w)=\frac{1}{2}\sum\limits_{l=1}^{L+1}\mu^{(l)}\|W^{(l)}\|_F^2$. Weight decay.\\
+
+\mytitle{NNs: Data Augmentation}
+Image classif. $\Rightarrow$ shift, rotate, scale, ...\\
+
+\mytitle{NNs: Dropout}
+Keep node with $p\in(0,1)$. ``Simultaneous training'' of all subnetworks.
+
 \mytitle{GMs: Bayes Nets}
+Chain rule: $p(X_1,...,X_D)=p(X_1)p(X_2|X_1)...p(X_D|X_1,...,X_{D-1})$\\
+Some dependencies can be missing.\\
+Graph: $p(X_i|...X_j...)$ $\Leftrightarrow$ $X_j\to X_i$\\
+$X\bot Y|Z$ $\Leftrightarrow$ $p(X, Y|Z)=p(X|Z)p(Y|Z)$. Can be sets\\
+\begin{enumerate}
+	\item $X, Y$ D-sep. by $Z$ $\Rightarrow$ $X\bot Y|Z$
+	\item $X, Y$ not D-sep. by $Z$ $\Rightarrow$ $\exists p$, B.Net G$\colon$ $\neg X\bot Y|Z$
+\end{enumerate}
+$X,Y$ D-sep. by $Z$ $\Leftrightarrow$ $\forall x\in X,\,\forall y\in Y \forall \mbox{path} x\to y$ path is blocked by $Z$ $\Leftrightarrow$ $\exists u\in x\to y\colon$\\
+$x\to y$ blocked by $Z$
+\begin{enumerate}
+	\item $u\in Z$, h-t-t or t-t-t
+	\item $u$ h-t-h and neither $u$ nor its descendants $\in Z$
+\end{enumerate}
+$...\leftarrow X_i\rightarrow...$ tail-to-tail\\
+$...\rightarrow X_i\leftarrow...$ head-to-head\\
+$...\rightarrow X_i\rightarrow...$ head-to-tail\\
 \mytitle{GMs: Factor Graphs}
+$f(x_1,...,x_D)=\prod\limits_{a\in A}f_a(x_{\partial a})$\\
+Graph: $V=\{f_a\}\cup\{x_i\}$. $(f,x)\in E\Leftrightarrow x\in x_{\partial a}$\\
+
 \mytitle{GMs: Inference and Sum-Product Algorithm}
+$f(z)=\sum\limits_{\sim z}f(z,...)$ (sum over all args but $z$)\\
+$g(z)=\prod\limits_{i=1}^k\sum\limits_{\sim z}g_i(z,...)$\\
+$\sum\limits_{\sim z}g_k(z,...)=\sum\limits_{\sim z}h(z,z_1,...,z_J)\prod\limits_{j=1}^J\sum\limits_{\sim z_j}h_j(z_j,...)$
+
 \end{multicols*}
 \end{document}
