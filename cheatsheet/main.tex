@@ -109,8 +109,10 @@ Sigmoid: $\phi(x)=(1+\exp(-x))^{-1}$\\
 
 \mytitle{NNs: Representation Power}
 Approximation: Riemann integral (avg, stepwise, towers), Fourier transform smoothness
+Stone-Weierstrass linear functions approximation.
 
 \mytitle{NNs: Backpropagation, Activation Functions}
+Function is non-convex.\\
 $z^({l})=(W^{(l)})^Tx^{(l-1)}+b^{(l)}$, $\x^{(l)}=f^({l})(x^({l-1}))=\phi(z^{(l)})$\\
 $\delta_j^{(l)}=\frac{\partial L_n}{\partial z_j^{(l)}}$, $\delta^{(l)}=W^{(l+1)}\delta^{(l+1)}\odot \phi'(z^{(l)})$\\
 $\delta^{(L+1)}=-2(y_n-x^{(L+1)})\phi'(z^{(L+1)})$\\
@@ -119,24 +121,29 @@ $\frac{\partial L_n}{\partial b_{j}^{(l)}}=\delta^{(l)}_j$.
 
 Tanh: $\tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$\\
 ReLU: $(x)_+=\max\{0, x\}$\\
-Leaky ReLU: $f(x)=\max\{\alpha x, x\}$
+Leaky ReLU: $f(x)=\max\{\alpha x, x\}$\\
 Maxout: $f(x)=\max\{x^Tw_1+b_1,...,x^Tw_k+b_k\}$
 
 \mytitle{NNs: CNN}
-Conv. 1D: $x^{(1)}[n]=\sum\limits_kf[k]x^{(0)}[n-k]$
+Conv. 1D: $x^{(1)}[n]=\sum\limits_kf[k]x^{(0)}[n-k]$. $O(NK)$\\
 Conv. 2D: $x^{(1)}[n,m]=\sum\limits_{k,l}f[k,l]x^{(0)}[n-k,m-l]$\\
 Zero (add virtual zeros) and valid (reduce out size) padding\\
-Channels.\\
-FFT $\Rightarrow$ faster convolution sometimes\\
+Channels. Pyramid with growing channel number\\
+FFT multiply $\Rightarrow$ smtm. better $O(L\log L)$, $L=N+K-1$\\
 
 \mytitle{NNs: Regularization}
-$\Omega(w)=\frac{1}{2}\sum\limits_{l=1}^{L+1}\mu^{(l)}\|W^{(l)}\|_F^2$. Weight decay.\\
+$\Omega(w)=\frac{1}{2}\sum\limits_{l=1}^{L+1}\mu^{(l)}\|W^{(l)}\|_F^2$.\\
+Only $w$, not $b$. Weight decay.\\
+Other option: $\|w\|_2\leqslant \Lambda$. Projection
 
 \mytitle{NNs: Data Augmentation}
-Image classif. $\Rightarrow$ shift, rotate, scale, ...\\
+Image classif. $\Rightarrow$ shift, rotate, scale, PCA, noise ...\\
+MTL learning: multi-headed network
 
 \mytitle{NNs: Dropout}
-Keep node with $p\in(0,1)$. ``Simultaneous training'' of all subnetworks.
+Keep node with $p\in(0,1)$. Other version: keep edge\\
+Less overfit. ``Simult. train'' of all sbntwrks. Bagging.\\
+Prediction: average or keep and scale.
 
 \mytitle{GMs: Bayes Nets}
 Chain rule: $p(X_1,...,X_D)=p(X_1)p(X_2|X_1)...p(X_D|X_1,...,X_{D-1})$\\
