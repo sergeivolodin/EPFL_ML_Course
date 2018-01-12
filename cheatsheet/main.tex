@@ -11,6 +11,7 @@
 \newcommand{\y}{\myvector{y}}
 \newcommand{\w}{\myvector{w}}
 \newcommand{\uu}{\myvector{u}}
+\newcommand{\underlabel}[2]{\underset{\mbox{\tiny #2}}{\underbrace{#1}}}
 \newcommand{\vv}{\myvector{v}}
 \newcommand{\eqdef}{\overset{\mbox{\tiny{def}}}{=}}
 \newcommand{\mytitle}[1]{ {\bf $\rightarrow$ \underline{#1}}\\}
@@ -90,12 +91,48 @@ $\w^*=(X^TX+\lambda'I)^{-1}X^T\y$, $2N\lambda=\lambda'$
 $\Omega(\w)=\lambda \|w\|_1=\lambda\sum |w_i|$ $\Rightarrow$ sparse solution
 
 \mytitle{Cross-Validation}
+$S$ finite, $D$ distr.
+Overfit: $L_S(f_S)\not\approx L_D(f_S)$\\
+Train, val: $S=S_t\sqcup S_v$\\
+Take $\arg\max L_{S_v}(f_k)$.\\
+Th: $L_{S_v}(f_k)\approx L_D(f_k)$\\
+k-fold.
+
 \mytitle{Bias-Variance decomposition}
+$\mathbb{E}\left[f(x_0)+\epsilon-f_{S_t}(x-0)\right]^2=\underlabel{Var\epsilon}{noise variance}+\underlabel{(f(x_0)-\mathbb{E}f_{S_t}(x_0))^2}{bias}+\underlabel{\mathbb{E}\left[\mathbb{E}f_{S_t}(x_0)-f_{S_t}(x_0)\right]^2}{variance}$
+
 \mytitle{Classification}
+$y\in \{C_0,C_1,...,C_{K-1}\}$ (finite)\\
+MAP: $\hat{y}(x)=\arg\max\limits_{y\in Y}p(y|x)$\\
+$P(\hat{y}(x)=y)=\int p(x)p(\hat{y}(x)|x)dx$
+
+
 \mytitle{Logistic Regression}
+$\sigma(z)=\frac{e^z}{1+e^z}$, $p(1|x)=\sigma(x^Tw)$, $p(0|x)=1-\sigma(x^Tw)$\\
+MLE: $p(y|X,w)=\prod\limits_{n=1}^N\sigma(x_n^Tw)^{y_n}\left(1-\sigma(x_n^Tw)\right)^{1-y_n}\to\max$\\
+LogP: $L(w)=\sum\limits_{n=1}^N\ln(1+\exp(x_n^Tw))-y_nx_n^Tw$ conv.\\
+$\nabla L(w)=X^T(\sigma(Xw)-y)$\\
+GD, Newton: $H=X^TSX$, $S_{nn}=\sigma(x_n^Tw)(1-\sigma(x_n^Tw))$\\
+$w^{(t+1)}=w^{(t)}-\gamma^{(t)}(H^{(t)})^{-1}\nabla L(w^{(t)})$ from 2nd Taylor\\
+Needs regul.
+
 \mytitle{Generalized Linear Models}
+Exp. fam.: $p(y|\vec{\eta})=h(y)\exp\left[\vec{eta}^T\vec{\psi}(y)-A(\vec{\eta})\right]$.\\
+$A$ conx., $\nabla A=\mathbb{E}\vec{\psi}(y)$. Link $g(\mathbb{E}\psi(y))=\eta$\\
+$\eta_n=x_n^Tw$ $\Rightarrow$ GLM
+
 \mytitle{K-Nearest Neighbor}
+$f_{S_t,k}(x)=\frac{1}{k}\sum\limits_{n\colon\,x_n\in \partial_{S_t,k}(x)}y_n$ over $k$ clst to $x$\\
+Curs. of dim. Proof.
+
 \mytitle{Support Vector Machines}
+$\inf\limits_w\sum\limits_{n=1}^n\left[1-y_nx_n^Tw\right]_++\frac{\lambda}{2}\|w\|^2_2$\\
+Hinge l.: $(1-yf)_+$, Logist. l.: $\ln(1-e^{-yf})$, MSE: $(1-yf)^2$\\
+$L(w)=\max\limits_\alpha G(w,\alpha)$, $\min\limits_w\max\limits_\alpha G(w,\alpha)=\max\limits_\alpha\min\limits_w G(w,\alpha)$
+$G$ conv w, conc $\alpha$.\\
+Dual: $\max\limits_{\alpha\in[0,1]^N}\alpha^T1-\frac{1}{2\lambda}\alpha^TYXX^TY\alpha$\\
+Can take $K=XX^T$. Coord. descent. Exerc.
+
 \mytitle{Kernel Regression}
 \mytitle{Unsupervised Learning}
 \mytitle{Gaussian Mixture Models}
