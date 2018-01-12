@@ -134,6 +134,14 @@ Dual: $\max\limits_{\alpha\in[0,1]^N}\alpha^T1-\frac{1}{2\lambda}\alpha^TYXX^TY\
 Can take $K=XX^T$. Coord. descent. Exerc.
 
 \mytitle{Kernel Regression}
+Th. $(PQ+I_N)^{-1}P=P(QP+I_M)$, $P\colon N\times M$, $Q\colon M\times N$\\
+Ridge: $w^*=(X^TX+\lambda I_D)^{-1}X^Ty=X^T(XX^T+\lambda I_N)^{-1}y=X^T\alpha^*$\\
+$K=XX^T$ kernel matrix. $K=\Phi^T\Phi$, $\phi(x_i)^T\phi(x_j)$.\\
+Only set $\kappa(x,x')=\phi(x)^T\phi(x')$\\
+RBF: $\kappa(x,x')=\exp\left[-\frac{1}{2}(x-x')^T(x-x')\right]$\\
+Props.: symm., $K\geqslant 0$ $\forall X$\\
+Exerc.
+
 \mytitle{Unsupervised Learning}
 \mytitle{Gaussian Mixture Models}
 \mytitle{EM algorithm}
