@@ -36,19 +36,26 @@ nodes = list(funcs.keys()) + variables
 # sanity check
 assert(len(nodes) == n_vars + n_funcs)
 
+# dictionaries merger
+# https://stackoverflow.com/questions/38987/how-to-merge-two-dictionaries-in-a-single-expression
+def merge_two_dicts(x, y):
+    z = x.copy()   # start with x's keys and values
+    z.update(y)    # modifies z with y's keys and values & returns None
+    return z
+
 # brute force marginalization
 def brute_marginalize1(sum_over, assignments):
+    merger = lambda x : merge_two_dicts(x, assignments)
     if len(sum_over) == 0:
-        assert(len(assignments) == n_vars)
         res = lambda x : 1.
-        for f in funcs: res = lambda x : res(x) * f(x)
+        for f in funcs: res = lambda x : res(merger(x)) * f(merger(x))
         return res
     var = sum_over[0]
     result = lambda x : 0.
     new_assignments = deepcopy(assignments)
     for value in var_space:
         new_assignments[var] = value
-        result = lambda x : brute_marginalize(sum_over[1:], new_assignments)(x) + result(x)
+        result = lambda x : brute_marginalize1(sum_over[1:], new_assignments)(x) + result(x)
     return result
 
 def brute_marginalize(variable):
@@ -56,14 +63,14 @@ def brute_marginalize(variable):
     sum_over.remove(variable)
     return brute_marginalize1(sum_over, {})
 
-print(brute_marginalize('x0')(0))
+print(brute_marginalize1([], {'x0': 2})({'x1': 2, 'x2': 3, 'x3': 4, 'x4': 5}))
 
 # get siblings of a node in the factor graph
 def get_siblings(node):
     if node[0] == 'f':
         return deps[node]
     elif node[0] == 'x':
-        return [key for key, value in items if node in items]
+        return [key for key, value in deps.items() if node in value]
 # array with all of the messages
 messages = [[None] * len(nodes)] * len(nodes)
 
