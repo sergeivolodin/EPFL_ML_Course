@@ -143,11 +143,38 @@ Props.: symm., $K\geqslant 0$ $\forall X$\\
 Exerc.
 
 \mytitle{Unsupervised Learning}
+No outputs $y_n$. Tasks: repres. learn., generative, density est.\\
+Clustering, Autoenc., GANs.\\
+K-Means: $\sum\limits_{n=1\,k=1}^{N,K}z_{nk}\|x_n-\mu_k\|_2^2$, $z_{nk}\in\{0,1\}$\\
+$\sum\limits_{k=1}^Kz_{nk}=1$. Opt.: $\mu$ fixed z, then vice versa.\\
+
 \mytitle{Gaussian Mixture Models}
+Hard: $P(X|\mu,\Sigma,z)=\prod\limits_{n,k=1}^{N,K}\left[N(x_n|\mu_k,\Sigma_k)\right]^{z_{nk}}$\\
+Soft: $P(X,z|\mu,\Sigma,\pi)=\prod\limits_{n,k=1}^{N,K}(N(x_n|\mu_k,\Sigma_k))^{z_{nk}}\prod\limits_{k=1}^K\pi_k^{z_{nk}}$
+
 \mytitle{EM algorithm}
+Optimizing Low. bound\\
+$q_{kn}^{(t)}=\frac{\pi_k^{(t)}N(x_n|\mu_k^{(t)},\Sigma_k^{(t)})}{\sum\limits_{k=1}^K\pi_k^{(t)}N(x_n|\mu_k^{(t)},\Sigma_k^{(t)})}$\\
+$\mu_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}x_n}{\sum_n q_{kn}^{(t)}}$\\
+$\Sigma_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}(x_n-\mu_k^{(t+1)})(x_n-\mu_k^{(t+1)})^T}{\sum_nq_{kn}^{(t)}}$\\
+$\pi_k^{(t+1)}=\frac{1}{N}\sum_nq_{kn}^{(t)}$
+
 \mytitle{Matrix Factorizations}
+$X\approx WZ^T$, $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}\left[x_{dn}-(WZ^T)_{dn}\right]^2\to\inf$\\
+Reg.: $\|W\|_{Frob}+\|Z\|_{Frob}$ \\
+SGD, ALS
+
+
 \mytitle{Text Representation Learning}
+Cooc. matrix, GloVe\\
+Skip-gram, FastText
+
 \mytitle{SVD and PCA}
+SVD: $X=USV^T$, $X\colon D\times N$, $U\colon D\times D$, $V\colon N\times N$\\
+$UU^T=U^TU=I$, $V^TV=VV^T=I$\\
+Compression, $\sum\limits_{i=K+1}s_i^2$\\
+PCA. Largest variance.
+
 \mytitle{NNs: Basics}
 $x_j^{(l)}=\phi\left(\sum\limits_iw_{ij}^{(l)}x_i^{(l-1)}+b_j^{(l)}\right)$\\
 Sigmoid: $\phi(x)=(1+\exp(-x))^{-1}$\\
