@@ -73,4 +73,45 @@ def get_siblings(node):
 # array with all of the messages
 messages = [[None] * len(nodes)] * len(nodes)
 
+def message_v_a(v, a):
+    # v -- variable node
+    # a -- factor node
+    neigh_v = get_siblings(v)
+    neigh_v.remove(a)
+    res = lambda x: 1.
+    for f in neigh_v:
+        res = lambda x, f=f, g=res,v=v : res(x) * messages[f][v](x)
+    messages[v][a] = res
+    return res
 
+# returns list of assignments for a sum over sum_over
+def all_assignments(sum_over, assignments = {}):
+    result = []
+    if len(sum_over) == 0:
+        return [assignments]
+    else:
+        current_var = sum_over[0]
+        for value in var_space:
+            assignments_new = deepcopy(assignments)
+            assignments_new[current_var] = value
+            [result.append(tmp) for tmp in all_assignments(sum_over[1:], assignments_new)]
+        return result
+
+print(sum_over_assignments(['x1', 'x2']))
+
+def message_a_v(v, a):
+    # v -- variable node
+    # a -- factor node
+    neigh_a = get_siblings(a)
+    neigh_a.remove(v)
+    sum_assignments = all_assignments(neigh_a, {})
+    res = lambda x : 0.
+    for assignment in sum_assignments:
+        tmp_res = lambda x : 1.
+        for v1 in neigh_a:
+            tmp_res = lambda x,arg1=v1,arg2=a,curr=tmp_res : tmp_res(x) * messages[arg1][arg2](x)
+        res = lambda x, curr=res,curr1=tmp_res,ass=assignment,cf=a : curr(x) * curr1(x) * funcs[cf](merge_two_dicts(x, ass))
+    messages[a][v] = res
+    return res
+
+def set_messages()
