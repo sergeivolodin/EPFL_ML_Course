@@ -71,7 +71,7 @@ def get_siblings(node):
         return [key for key, value in deps.items() if node in value]
 
 # array with all of the messages
-messages = [[None] * len(nodes)] * len(nodes)
+messages = {n: {x: None for x in nodes} for n in nodes}
 
 def message_v_a(v, a):
     # v -- variable node
@@ -97,8 +97,6 @@ def all_assignments(sum_over, assignments = {}):
             [result.append(tmp) for tmp in all_assignments(sum_over[1:], assignments_new)]
         return result
 
-print(sum_over_assignments(['x1', 'x2']))
-
 def message_a_v(v, a):
     # v -- variable node
     # a -- factor node
@@ -114,4 +112,20 @@ def message_a_v(v, a):
     messages[a][v] = res
     return res
 
-def set_messages()
+def set_messages():
+    for v in variables:
+        for a in funcs.keys():
+            if v in get_siblings(a):
+                messages[v][a] = message_v_a(v, a)
+                messages[a][v] = message_a_v(v, a)
+
+set_messages()
+
+def bp_marginalize(variable):
+    res = lambda x : 1.
+    for f in get_siblings(variable):
+        res = lambda x, f=f,g=res: f(x) * g(x)
+    return res
+
+print(bp_marginalize('x1'))
+print(bp_marginalize('x1')({'x1': 3}))
