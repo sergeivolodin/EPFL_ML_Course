@@ -1,6 +1,6 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 \usepackage{multicol}
-\usepackage[a4paper, margin=0.1in]{geometry}
+\usepackage[a4paper, margin=0.3in]{geometry}
 \usepackage{blindtext}
 \usepackage{amssymb}
 \usepackage{parskip}
@@ -11,9 +11,9 @@
 \newcommand{\y}{\myvector{y}}
 \newcommand{\w}{\myvector{w}}
 \newcommand{\uu}{\myvector{u}}
-\newcommand{\underlabel}[2]{\underset{\mbox{\tiny #2}}{\underbrace{#1}}}
+\newcommand{\underlabel}[2]{\underset{\mbox{\small #2}}{\underbrace{#1}}}
 \newcommand{\vv}{\myvector{v}}
-\newcommand{\eqdef}{\overset{\mbox{\tiny{def}}}{=}}
+\newcommand{\eqdef}{\overset{\mbox{\small{def}}}{=}}
 \newcommand{\mytitle}[1]{ {\bf $\rightarrow$ \underline{#1}}\\}
 \begin{document}
 \begin{center}
@@ -23,80 +23,65 @@
 \begin{multicols*}{2}
 \mytitle{Introduction}
 \fbox{Train $(x,y)$}+\fbox{Algo}$\Rightarrow$\fbox{Model}, 
-\fbox{Test $x$}+\fbox{Model}$\Rightarrow$\\\fbox{Prediction}. Regression, Classification, Unsupervised
-
+\fbox{Test $x$}+\fbox{Model}$\Rightarrow$\\\fbox{Prediction}. Regression, Classification, Unsupervised\\
 \mytitle{Linear Regression}
 $\{(\x_n, y_n)\}_{i=1}^N$, $\x\in \mathbb{R}^D$. Want: $\forall n\in\overline{1, N}\,f(\x_n)\approx y_n$\\
-$\tilde{\x}_n=(1,x_{n1},...,x_{nD})$, $f(\x_n)\eqdef \tilde{\x}_n^T\w$, Learn. $=$ finding w,\\
-$D>N$ $\Rightarrow$ need regul.
-
+$\tilde{\x}_n=(1,x_{n1},...,x_{nD})$, $f(\x_n)\eqdef \tilde{\x}_n^T\w$, Learn. $=$ finding w,
+$D>N$ $\Rightarrow$ need regul.\\
 \mytitle{Cost functions}
 $L(\w)=\mbox{MSE}(\w)=\frac{1}{2N}\sum\limits_{n=1}^N\left[y_n-f(\x_n)\right]^2$,
-$L(\w)=\mbox{MAE}(\w)=\frac{1}{N}\sum\limits_{n=1}^n\left|y_n-f(\x_n)\right|$. Tradeoff: computational (diff-ble) vs. statistical (robustness) properties
-
+$L(\w)=\mbox{MAE}(\w)=\frac{1}{N}\sum\limits_{n=1}^n\left|y_n-f(\x_n)\right|$. Tradeoff: computational (diff-ble) vs. statistical (robustness) properties\\
 \mytitle{Convexity}
 $f(\uu),\,\uu\in X$~--- {\em convex} $\Leftrightarrow$
 $\forall \uu, \vv\in X\,\forall \lambda\in \left(0,1\right)$\\
 $f(\lambda \uu + (1-\lambda) \vv)\leqslant \lambda f(\uu)+(1-\lambda)f(\vv)$ ({\em strictly c.} $\Leftrightarrow$ $<$)
-$f$~--- strictly convex $\Rightarrow$ $\exists !$ global inf. Diff.: $L(u)\geqslant L(w)+\nabla L(w)^T(u-w)$ or $H\geqslant 0$
-
+$f$~--- strictly convex $\Rightarrow$ $\exists !$ global inf. Diff.: $L(u)\geqslant L(w)+\nabla L(w)^T(u-w)$ or $H\geqslant 0$\\
 \mytitle{Optimization}
 Optimization problem:
-$\inf\limits_{\w}L(\w)$. Grid search.\\
-{\bf GD:} $O(N\cdot D)$, $\w^{(t+1)}=\w^{(t)}-\gamma\nabla L(\w^{(t)})$ $L(\w)=\frac{1}{N}\sum\limits_{n=1}^N L_n(\w)$ {\bf SGD:} $O(D)$, $\w^{(t+1)}=\w^{(t)}-\gamma\nabla L_n(\w^{(t)})$\\
-$\mathbb{E}\nabla L_n=\nabla L$ {\bf Batch GD:}  $\w^{(t+1)}=\w^{(t)}-\frac{\gamma}{|B|} \sum\limits_{n\in B}\nabla L_n(\w^{(t)})$
-
+$\inf\limits_{\w}L(\w)$. Grid search.
+{\bf GD:} $O(N\cdot D)$, $\w^{(t+1)}=\w^{(t)}-\gamma\nabla L(\w^{(t)})$ $L(\w)=\frac{1}{N}\sum\limits_{n=1}^N L_n(\w)$.
+{\bf SGD:} $O(D)$, $\w^{(t+1)}=\w^{(t)}-\gamma\nabla L_n(\w^{(t)})$.
+$\mathbb{E}\nabla L_n=\nabla L$.
+{\bf Batch GD:}  $\w^{(t+1)}=\w^{(t)}-\frac{\gamma}{|B|} \sum\limits_{n\in B}\nabla L_n(\w^{(t)})$.
 $\forall\uu\,L(\uu)\geqslant L(\w)+g^T(\uu-\w)$ $\Leftrightarrow$ $g$~--- {\em subgradient} of $L$ at $\w$. $\exists \nabla L(\w)$ $\Leftrightarrow$
-$\exists!$ subgradient $\nabla L(\w)$. Convex set. Projection. Proj. GD. Constrainted $\rightarrow$ unconstr. problem. Line search. Feature normalization. 
-
+$\exists!$ subgradient $\nabla L(\w)$. Convex set. Projection. Proj. GD. Constrainted $\rightarrow$ unconstr. problem. Line search. Feature normalization.\\
 \mytitle{Least Squares}
 Norm. eqs: $\nabla L(\w)=0=-\frac{1}{N}X^T(y-Xw)$
 $\Rightarrow$ $\w^*=(X^TX)^{-1}X^T\myvector{y}$.
-Proj. to space $\bot$ to $ImX$
-
+Proj. to space $\bot$ to $ImX$\\
 \mytitle{Ill-conditioning}
-$D>N$ no inverse. Columns of $X$ are $\approx$ collin. $\Rightarrow$ SVD
-
+$D>N$ no inverse. Columns of $X$ are $\approx$ collin. $\Rightarrow$ SVD\\
 \mytitle{Max Likelihood}
-(MSE) $y_n=\x_n^T\w+\varepsilon_n$, $\varepsilon_n\sim N(0, \sigma^2)$. $p(\y|X,\w)=\prod\limits_{n=1}^NN(y_n|\x_n^Tw,\sigma^2)$, $L_{\mbox{\tiny LL MLE}}=\ln p(\y|X,\w)\approx \mathbb{E}\log p(y|\x,\w)$ $\Rightarrow$ $\arg\max L_{\mbox{\tiny LL MLE}}=\arg\min L_{\mbox{\tiny MSE}}$\\
-$N(y|\mu,\Sigma)=\frac{\exp\left[-\frac{1}{2}(y-\mu)^T\Sigma^{-1}(y-\mu)\right]}{\sqrt{(2\pi)^D\det\Sigma}}$
-
+(MSE) $y_n=\x_n^T\w+\varepsilon_n$, $\varepsilon_n\sim N(0, \sigma^2)$. $p(\y|X,\w)=\prod\limits_{n=1}^NN(y_n|\x_n^Tw,\sigma^2)$, $L_{\mbox{\small LL MLE}}=\ln p(\y|X,\w)\approx \mathbb{E}\log p(y|\x,\w)$ $\Rightarrow$ $\arg\max L_{\mbox{\small LL MLE}}=\arg\min L_{\mbox{\small MSE}}$\\
+$N(y|\mu,\Sigma)=\frac{\exp\left[-\frac{1}{2}(y-\mu)^T\Sigma^{-1}(y-\mu)\right]}{\sqrt{(2\pi)^D\det\Sigma}}$\\
 \mytitle{Overfitting}
-Overfit: too complex model, fit the noise.
-Underfit: no good model in the set.
-Both bad. Polynomial basis example
-
+Overfit: too complx model, fit the noise.
+Underfit: no good mdl in the set.
+Both bad. Poly basis ex.
 Reg.: $\min\limits_\w L(\w)+\Omega(\w)$, last for complexity.
-L2: $+\lambda \|\w\|_2^2$
-
+L2: $+\lambda \|\w\|_2^2$\\
 \mytitle{Ridge Regression}
 $\w^*=(X^TX+\lambda'I)^{-1}X^T\y$, $2N\lambda=\lambda'$.
 View: $N$ prior on $w$.
-Other reg.: dropout, earl. stop., shrinkage
-
+Other reg.: dropout, earl. stop., shrinkage\\
 \mytitle{Lasso}
 MSE + $\Omega(\w)=\lambda \|w\|_1=\lambda\sum |w_i|$ $\Rightarrow$ sparse solution\\
-
 \mytitle{Cross-Validation}
 $S$ finite, $D$ distr.
 Overfit: $L_S(f_S)\not\approx L_D(f_S)$.
 Train, val: $S=S_t\sqcup S_v$.
 Take $\arg\max L_{S_v}(f_k)$.
-Th: $L_{S_v}(f_k)\approx L_D(f_k)$
-k-fold.
-
+Th: $L_{S_v}(f_k)\approx L_D(f_k)$.
+k-fold.\\
 \mytitle{Bias-Variance decomposition}
-$\mathbb{E}\left[f(x_0)+\epsilon-f_{S_t}(x-0)\right]^2=\underlabel{Var\epsilon}{noise variance}+\underlabel{(f(x_0)-\mathbb{E}f_{S_t}(x_0))^2}{bias}+$\\
-$\underlabel{\mathbb{E}\left[\mathbb{E}f_{S_t}(x_0)-f_{S_t}(x_0)\right]^2}{variance}$
+$\mathbb{E}\left[f(x_0)+\epsilon-f_{S_t}(x-0)\right]^2=\underlabel{Var\epsilon}{noise variance}+\underlabel{(f(x_0)-\mathbb{E}f_{S_t}(x_0))^2}{bias}+$
+$\underlabel{\mathbb{E}\left[\mathbb{E}f_{S_t}(x_0)-f_{S_t}(x_0)\right]^2}{variance}$.
 Bias $\uparrow$ underfit.
-Variance $\uparrow$ overfit
-
+Variance $\uparrow$ overfit\\
 \mytitle{Classification}
 $y\in \{C_0,C_1,...,C_{K-1}\}$ (finite).
 MAP: $\hat{y}(x)=\arg\max\limits_{y\in Y}p(y|x)$.
-$P(\hat{y}(x)=y)=\int p(x)p(\hat{y}(x)|x)dx$
-
-
+$P(\hat{y}(x)=y)=\int p(x)p(\hat{y}(x)|x)dx$\\
 \mytitle{Logistic Regression}
 $y\in\{0,1\}$, $\sigma(z)=\frac{e^z}{1+e^z}$, $p(1|x)=\sigma(x^Tw)$, $p(0|x)=1-\sigma(x^Tw)$.
 MLE: $p(y|X,w)=\prod\limits_{n=1}^N\sigma(x_n^Tw)^{y_n}\left(1-\sigma(x_n^Tw)\right)^{1-y_n}\to\max$.
@@ -104,140 +89,116 @@ LogP: $L(w)=\sum\limits_{n=1}^N\ln(1+\exp(x_n^Tw))-y_nx_n^Tw$ conv.
 $\nabla L(w)=X^T(\sigma(Xw)-y)$.
 GD, Newton: $H=X^TSX$, $S_{nn}=\sigma(x_n^Tw)(1-\sigma(x_n^Tw))$.
 $w^{(t+1)}=w^{(t)}-\gamma^{(t)}(H^{(t)})^{-1}\nabla L(w^{(t)})$ from 2nd Taylor.
-Needs regul.
-
+Needs regul.\\
 \mytitle{Generalized Linear Models}
 Exp. fam.: $p(y|\vec{\eta})=h(y)\exp\left[\vec{\eta}^T\vec{\psi}(y)-A(\vec{\eta})\right]$.
 $\psi$ suff. stat., $A$ log part f.,
 $A$ conv., $\nabla A=\mathbb{E}\vec{\psi}(y)$. Link $g(\mathbb{E}\psi(y))=\eta$.
 $\psi\in \mathbb{R}$, $\eta_n=x_n^Tw$ $\Rightarrow$ GLM: est. $\vec{\eta}$.
 $p(y|x,w)=h(y)\exp\{X^TW\psi(y)-A(X^TW)\}$.
-$X^T(g^{-1}(Xw)-\psi(y))=0$
-
+$X^T(g^{-1}(Xw)-\psi(y))=0$\\
 \mytitle{K-Nearest Neighbor}
 $f_{S_t,k}(x)=\frac{1}{k}\sum\limits_{n\colon\,x_n\in \partial_{S_t,k}(x)}y_n$ over $k$ clst to $x$.
-Curs. of dim.: $r^d$ volume, $r^d\overset{d\to\infty}\to 0$
-
+Curs. of dim.: $r^d$ volume, $r^d\overset{d\to\infty}\to 0$\\
 \mytitle{Support Vector Machines}
 $y\in\{-1,1\}$, $\inf\limits_w\sum\limits_{n=1}^n\left[1-y_nx_n^Tw\right]_++\frac{\lambda}{2}\|w\|^2_2$.
 Hinge l.: $(1-yf)_+$, Logist. l.: $\ln(1-e^{-yf})$, MSE: $(1-yf)^2$.
 $L(w)=\max\limits_\alpha G(w,\alpha)$, $\min\limits_w\max\limits_\alpha G(w,\alpha)=\max\limits_\alpha\min\limits_w G(w,\alpha)$
 $G$ conv w, conc $\alpha$.
 Dual: $\max\limits_{\alpha\in[0,1]^N}\alpha^T1-\frac{1}{2\lambda}\alpha^TYXX^TY\alpha$.
-Can take $K=XX^T$. Support vectors, Coord. descent. Max margin.
-
+Can take $K=XX^T$. Support vectors, Coord. descent. Max margin.\\
 \mytitle{Kernel Regression}
 Th. $(PQ+I_N)^{-1}P=P(QP+I_M)$, $P\colon N\times M$, $Q\colon M\times N$.
 Ridge: $w^*=(X^TX+\lambda I_D)^{-1}X^Ty=X^T(XX^T+\lambda I_N)^{-1}y=X^T\alpha^*$.
 $K=XX^T$ kernel matrix. $K=\Phi^T\Phi$, $\phi(x_i)^T\phi(x_j)$.
 Only set $\kappa(x,x')=\phi(x)^T\phi(x')$.
 RBF: $\kappa(x,x')=\exp\left[-\frac{1}{2}(x-x')^T(x-x')\right]$.
-Props.: symm., $K\geqslant 0$ $\forall X$.
-
+Props.: symm., $K\geqslant 0$ $\forall X$.\\
 \mytitle{Unsupervised Learning}
 No outputs $y_n$. Tasks: repres. learn., generative, density est.
 Clustering: inter-cl. $<$ betw. cl., Autoenc., GANs.
 K-Means: $\sum\limits_{n=1\,k=1}^{N,K}z_{nk}\|x_n-\mu_k\|_2^2$, $z_{nk}\in\{0,1\}$
-$\sum\limits_{k=1}^Kz_{nk}=1$. Opt.: $\mu$ fixed z, then vice versa.
-
+$\sum\limits_{k=1}^Kz_{nk}=1$. Opt.: $\mu$ fixed z, then vice versa.\\
 \mytitle{Gaussian Mixture Models}
 (before) hard: $P(X|\mu,\Sigma,z)=\prod\limits_{n,k=1}^{N,K}\left[N(x_n|\mu_k,\Sigma_k)\right]^{z_{nk}}$\\
 Soft: $P(X,z|\mu,\Sigma,\pi)=\prod\limits_{n,k=1}^{N,K}(N(x_n|\mu_k,\Sigma_k))^{z_{nk}}\prod\limits_{k=1}^K\pi_k^{z_{nk}}$\\
 $p(x_n|\theta)=\sum\limits_{k=1}^k\pi_kN(x_n|\mu_k,\Sigma_k)$.
-Non-(conv, uniq, bound)
-
+Non-(conv, uniq, bound)\\
 \mytitle{EM algorithm}
 Optimizing Low. bound ($\log$ is conc.)\\
 $q_{kn}^{(t)}=\frac{\pi_k^{(t)}N(x_n|\mu_k^{(t)},\Sigma_k^{(t)})}{\sum\limits_{k=1}^K\pi_k^{(t)}N(x_n|\mu_k^{(t)},\Sigma_k^{(t)})}$.
-$\mu_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}x_n}{\sum_n q_{kn}^{(t)}}$.\\
-$\Sigma_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}(x_n-\mu_k^{(t+1)})(x_n-\mu_k^{(t+1)})^T}{\sum_nq_{kn}^{(t)}}$
+$\mu_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}x_n}{\sum_n q_{kn}^{(t)}}$.
+$\Sigma_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}(x_n-\mu_k^{(t+1)})(x_n-\mu_k^{(t+1)})^T}{\sum_nq_{kn}^{(t)}}$.
 $\pi_k^{(t+1)}=\frac{1}{N}\sum_nq_{kn}^{(t)}$.
 $\Sigma_k=\sigma^2I,\,\sigma\to0\Rightarrow$ k-means.
-$q_{kn}^{(t)}=p(z_n=k|x_n,\theta^{(t)})$
-
+$q_{kn}^{(t)}=p(z_n=k|x_n,\theta^{(t)})$\\
 \mytitle{Matrix Factorizations}
-$X\colon D\times N$ (mv$\times$us), $X\approx WZ^T$, $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}\left[x_{dn}-(WZ^T)_{dn}\right]^2$
+$X\colon D\times N$ (m$\times$u), $X\approx WZ^T$, $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}\left[x-(WZ^T)\right]_{dn}^2$
 Reg.: $\|W\|_{Frob}+\|Z\|_{Frob}$.
-SGD, ALS. Nonconv., non-unique.
-
-
+SGD, ALS. Nonconv., non-unique.\\
 \mytitle{Text Representation Learning}
 $w_i\to\vec{w}_i$ word$\rightarrow$vec.
-Cooc. matrix $X$, GloVe:\\ $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}f_{dn}\left[x_{dn}-(WZ^T)_{dn}\right]^2$, $f_{dn}=\min\{1,(n_{dn}/n_{\max})^{3/4}\}$\\
-Skip-gram: real/fake context, FastText: $\sum\limits_{s_n\mbox{\tiny sent.}}f(y_nWZ^Tx_n)$
-
+Cooc. matrix $X$, GloVe: $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}f_{dn}\left[x-(WZ^T)\right]_{dn}^2$, $f_{dn}=\min\{1,(n_{dn}/n_{\max})^{3/4}\}$.
+Skip-gram: real/fake cntxt, FastText: $\sum\limits_{s_n\mbox{\small sent.}}f(y_nWZ^Tx_n)$\\
 \mytitle{SVD and PCA}
-SVD: $X=USV^T$, $X\colon D\times N$, $U\colon D\times D$, $V\colon N\times N$\\
+SVD: $X=USV^T$, $X\colon D\times N$, $U\colon D\times D$, $V\colon N\times N$.
 $UU^T=U^TU=I$, $V^TV=VV^T=I$.
 Compression, $\|X-\hat{X}\|^2_F\geqslant \|X-U_KU)K^TX\|^2_F\geqslant\sum\limits_{i=K+1}s_i^2$, $rk\hat{X}=K$, $U_KU_K^TX=US^{(K)}V^T$.
-PCA. Largest variance.
-
+PCA. Largest variance.\\
 \mytitle{NNs: Basics}
 $x_j^{(l)}=\phi\left(\sum\limits_iw_{ij}^{(l)}x_i^{(l-1)}+b_j^{(l)}\right)$.
 Sgmd: $\phi(x)=(1+e^{-x})^{-1}$\\
-
 \mytitle{NNs: Representation Power}
 Approximation: Riemann integral (avg, stepwise, towers), Fourier transform smoothness
-Stone-Weierstrass linear functions approximation.
-
-\mytitle{NNs: Backpropagation, Activation Functions}
+Stone-Weierstrass linear functions approximation.\\
+\mytitle{NNs: Backpropagation, Activ. Functions}
 Function is non-convex.\\
-$z^{(l)}=(W^{(l)})^Tx^{(l-1)}+b^{(l)}$, $\x^{(l)}=f^({l})(x^({l-1}))=\phi(z^{(l)})$\\
+$z^{(l)}=(W^{(l)})^Tx^{(l-1)}+b^{(l)}$, $\x^{(l)}=f^{(l)}(x^{(l-1)})=\phi(z^{(l)})$.
 $\delta_j^{(l)}=\frac{\partial L_n}{\partial z_j^{(l)}}$, $\delta^{(l)}=W^{(l+1)}\delta^{(l+1)}\odot \phi'(z^{(l)})$\\
-$\delta^{(L+1)}=-2(y_n-x^{(L+1)})\phi'(z^{(L+1)})$\\
+$\delta^{(L+1)}=-2(y_n-x^{(L+1)})\phi'(z^{(L+1)})$.
 $\frac{\partial L_n}{\partial w_{ij}^{(l)}}=\delta^{(l)}_jx_i^{(l-1)}$,
 $\frac{\partial L_n}{\partial b_{j}^{(l)}}=\delta^{(l)}_j$.
-
 Tanh: $\tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$.
 ReLU: $(x)_+=\max\{0, x\}$.
 Leaky ReLU: $f(x)=\max\{\alpha x, x\}$.
-Maxout: $f(x)=\max\{x^Tw_1+b_1,...,x^Tw_k+b_k\}$
-
+Maxout: $f(x)=\max\{x^Tw_1+b_1,...,x^Tw_k+b_k\}$\\
 \mytitle{NNs: CNN}
 Conv. 1D: $x^{(1)}[n]=\sum\limits_kf[k]x^{(0)}[n-k]$. $O(NK)$\\
 Conv. 2D: $x^{(1)}[n,m]=\sum\limits_{k,l}f[k,l]x^{(0)}[n-k,m-l]$\\
-Zero (add virtual zeros) and valid (reduce out size) padding\\
-Channels. Pyramid with growing channel number\\
+Zero (add virtual zeros) and valid (reduce out size) padding.
+Channels. Pyramid with growing channel number.
 FFT multiply $\Rightarrow$ smtm. better $O(L\log L)$, $L=N+K-1$\\
-
 \mytitle{NNs: Regularization}
 $\Omega(w)=\frac{1}{2}\sum\limits_{l=1}^{L+1}\mu^{(l)}\|W^{(l)}\|_F^2$.
 Only $w$, not $b$. Weight decay.
-Other option: $\|w\|_2\leqslant \Lambda$. Projection
-
+Other option: $\|w\|_2\leqslant \Lambda$. Projection\\
 \mytitle{NNs: Data Augmentation}
 Image classif. $\Rightarrow$ shift, rotate, scale, PCA, noise.
-MTL learning: multi-headed network
-
+MTL learning: multi-headed network\\
 \mytitle{NNs: Dropout}
 Keep node with $p\in(0,1)$. Other version: keep edge.
 Less overfit. ``Simult. train'' of all sbntwrks. Bagging.
-Prediction: average or keep and scale.
-
+Prediction: average or keep and scale.\\
 \mytitle{GMs: Bayes Nets}
-Chain rule:\\
-$p(X_1,...,X_D)=p(X_1)p(X_2|X_1)...p(X_D|X_1,...,X_{D-1})$\\
+Chain rule: $p(\vec{X})=p(X_1)p(X_2|X_1)...p(X_D|X_1,...,X_{D-1})$\\
 Some dependencies can be missing.\\
-Graph: $p(X_i|...X_j...)$ $\Leftrightarrow$ $X_j\to X_i$
+Graph: $p(X_i|...X_j...)$ $\Leftrightarrow$ $X_j\to X_i$.\\
 $X\bot Y|Z$ $\Leftrightarrow$ $p(X, Y|Z)=p(X|Z)p(Y|Z)$. Can be sets\\
-1. $X, Y$ D-sep. by $Z$ $\Rightarrow$ $X\bot Y|Z$\\
-2. $X, Y$ not D-sep. by $Z$ $\Rightarrow$ $\exists p$, B.Net G$\colon$ $\neg X\bot Y|Z$
-$X,Y$ D-sep. by $Z$ $\Leftrightarrow$ $\forall x\in X,\,\forall y\in Y \forall\, \mbox{path}\, x\to y$ path is blocked by $Z$. $x\to y$ blocked by $Z$ $\exists u\in x\to y\colon$\\
+{\bf 1.} $X, Y$ D-sep. by $Z$ $\Rightarrow$ $X\bot Y|Z$\\
+{\bf 2.} $X, Y$ not D-sep. by $Z$ $\Rightarrow$ $\exists p$, B.Net G$\colon$ $\neg X\bot Y|Z$
+$X,Y$ D-sep. by $Z$ $\Leftrightarrow$ $\forall x\in X,\,\forall y\in Y \forall\, \mbox{path}\, x\to y$, path is blocked by $Z$.\\$x\to y$ {\bf blocked by} $Z$ $\exists u\in x\to y\colon$\\
 1. $u\in Z$, h-t-t or t-t-t\\
-2. $u$ h-t-h and neither $u$ nor its descendants $\in Z$
-
-$...\leftarrow X_i\rightarrow...$ tail-to-tail.
+2. $u$ h-t-h and neither $u$ nor its descendants $\in Z$\\
+$...\leftarrow X_i\rightarrow...$ tail-to-tail.\\
 $...\rightarrow X_i\leftarrow...$ head-to-head\\
 $...\rightarrow X_i\rightarrow...$ head-to-tail\\
 \mytitle{GMs: Factor Graphs}
 $f(x_1,...,x_D)=\prod\limits_{a\in A}f_a(x_{\partial a})$\\
-Graph: $V=\{f_a\}\cup\{x_i\}$. $(f,x)\in E\Leftrightarrow x\in x_{\partial a}$\\
-
+Graph: $V=\{f_a\}\cup\{x_i\}$. $(f_a,x_i)\in E\Leftrightarrow x_i\in x_{\partial a}$\\
 \mytitle{GMs: Inference and Sum-Product Algorithm}
 $f(z)=\sum\limits_{\sim z}f(z,...)$ (sum over all args but $z$)\\
-$g(z)=\prod\limits_{i=1}^k\sum\limits_{\sim z}g_i(z,...)$\\
-$\sum\limits_{\sim z}g_k(z,...)=\sum\limits_{\sim z}h(z,z_1,...,z_J)\prod\limits_{j=1}^J\sum\limits_{\sim z_j}h_j(z_j,...)$
-
+$g(z)=\prod\limits_{i=1}^k\sum\limits_{\sim z}g_i(z,...)$.\\
+$\sum\limits_{\sim z}g_k(z,...)=\sum\limits_{\sim z}h(z,z_1,...,z_J)\prod\limits_{j=1}^J\sum\limits_{\sim z_j}h_j(z_j,...)$.\\
 T.: $O\left(\exp \max\limits_{a\in A}|x_{\partial a}|\right)$
 \end{multicols*}
 \end{document}
