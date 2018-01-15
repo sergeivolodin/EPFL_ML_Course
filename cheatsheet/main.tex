@@ -104,7 +104,10 @@ Th: $L_{S_v}(f_k)\approx L_D(f_k)$\\
 k-fold.
 
 \mytitle{Bias-Variance decomposition}
-$\mathbb{E}\left[f(x_0)+\epsilon-f_{S_t}(x-0)\right]^2=\underlabel{Var\epsilon}{noise variance}+\underlabel{(f(x_0)-\mathbb{E}f_{S_t}(x_0))^2}{bias}+\underlabel{\mathbb{E}\left[\mathbb{E}f_{S_t}(x_0)-f_{S_t}(x_0)\right]^2}{variance}$
+$\mathbb{E}\left[f(x_0)+\epsilon-f_{S_t}(x-0)\right]^2=\underlabel{Var\epsilon}{noise variance}$\\
+$+\underlabel{(f(x_0)-\mathbb{E}f_{S_t}(x_0))^2}{bias}+\underlabel{\mathbb{E}\left[\mathbb{E}f_{S_t}(x_0)-f_{S_t}(x_0)\right]^2}{variance}$\\
+Bias $\uparrow$ underfit\\
+Variance $\uparrow$ overfit
 
 \mytitle{Classification}
 $y\in \{C_0,C_1,...,C_{K-1}\}$ (finite)\\
@@ -113,7 +116,7 @@ $P(\hat{y}(x)=y)=\int p(x)p(\hat{y}(x)|x)dx$
 
 
 \mytitle{Logistic Regression}
-$\sigma(z)=\frac{e^z}{1+e^z}$, $p(1|x)=\sigma(x^Tw)$, $p(0|x)=1-\sigma(x^Tw)$\\
+$y\in\{0,1\}$, $\sigma(z)=\frac{e^z}{1+e^z}$, $p(1|x)=\sigma(x^Tw)$, $p(0|x)=1-\sigma(x^Tw)$\\
 MLE: $p(y|X,w)=\prod\limits_{n=1}^N\sigma(x_n^Tw)^{y_n}\left(1-\sigma(x_n^Tw)\right)^{1-y_n}\to\max$\\
 LogP: $L(w)=\sum\limits_{n=1}^N\ln(1+\exp(x_n^Tw))-y_nx_n^Tw$ conv.\\
 $\nabla L(w)=X^T(\sigma(Xw)-y)$\\
@@ -122,21 +125,24 @@ $w^{(t+1)}=w^{(t)}-\gamma^{(t)}(H^{(t)})^{-1}\nabla L(w^{(t)})$ from 2nd Taylor\
 Needs regul.
 
 \mytitle{Generalized Linear Models}
-Exp. fam.: $p(y|\vec{\eta})=h(y)\exp\left[\vec{eta}^T\vec{\psi}(y)-A(\vec{\eta})\right]$.\\
-$A$ conx., $\nabla A=\mathbb{E}\vec{\psi}(y)$. Link $g(\mathbb{E}\psi(y))=\eta$\\
-$\eta_n=x_n^Tw$ $\Rightarrow$ GLM
+Exp. fam.: $p(y|\vec{\eta})=h(y)\exp\left[\vec{\eta}^T\vec{\psi}(y)-A(\vec{\eta})\right]$.\\
+$\psi$ suff. stat., $A$ log part f., 
+$A$ conv., $\nabla A=\mathbb{E}\vec{\psi}(y)$. Link $g(\mathbb{E}\psi(y))=\eta$\\
+$\psi\in \mathbb{R}$, $\eta_n=x_n^Tw$ $\Rightarrow$ GLM: est. $\vec{\eta}$.\\
+$p(y|x,w)=h(y)\exp\{X^TW\psi(y)-A(X^TW)\}$\\
+$X^T(g^{-1}(Xw)-\psi(y))=0$
 
 \mytitle{K-Nearest Neighbor}
 $f_{S_t,k}(x)=\frac{1}{k}\sum\limits_{n\colon\,x_n\in \partial_{S_t,k}(x)}y_n$ over $k$ clst to $x$\\
-Curs. of dim. Proof.
+Curs. of dim.: $r^d$ volume, $r^d\overset{d\to\infty}\to 0$
 
 \mytitle{Support Vector Machines}
-$\inf\limits_w\sum\limits_{n=1}^n\left[1-y_nx_n^Tw\right]_++\frac{\lambda}{2}\|w\|^2_2$\\
+$y\in\{-1,1\}$, $\inf\limits_w\sum\limits_{n=1}^n\left[1-y_nx_n^Tw\right]_++\frac{\lambda}{2}\|w\|^2_2$\\
 Hinge l.: $(1-yf)_+$, Logist. l.: $\ln(1-e^{-yf})$, MSE: $(1-yf)^2$\\
 $L(w)=\max\limits_\alpha G(w,\alpha)$, $\min\limits_w\max\limits_\alpha G(w,\alpha)=\max\limits_\alpha\min\limits_w G(w,\alpha)$
 $G$ conv w, conc $\alpha$.\\
 Dual: $\max\limits_{\alpha\in[0,1]^N}\alpha^T1-\frac{1}{2\lambda}\alpha^TYXX^TY\alpha$\\
-Can take $K=XX^T$. Coord. descent. Exerc.
+Can take $K=XX^T$. Support vectors, Coord. descent. Max margin.
 
 \mytitle{Kernel Regression}
 Th. $(PQ+I_N)^{-1}P=P(QP+I_M)$, $P\colon N\times M$, $Q\colon M\times N$\\
@@ -145,39 +151,43 @@ $K=XX^T$ kernel matrix. $K=\Phi^T\Phi$, $\phi(x_i)^T\phi(x_j)$.\\
 Only set $\kappa(x,x')=\phi(x)^T\phi(x')$\\
 RBF: $\kappa(x,x')=\exp\left[-\frac{1}{2}(x-x')^T(x-x')\right]$\\
 Props.: symm., $K\geqslant 0$ $\forall X$\\
-Exerc.
 
 \mytitle{Unsupervised Learning}
 No outputs $y_n$. Tasks: repres. learn., generative, density est.\\
-Clustering, Autoenc., GANs.\\
+Clustering: inter-cl. $<$ betw. cl., Autoenc., GANs.\\
 K-Means: $\sum\limits_{n=1\,k=1}^{N,K}z_{nk}\|x_n-\mu_k\|_2^2$, $z_{nk}\in\{0,1\}$\\
 $\sum\limits_{k=1}^Kz_{nk}=1$. Opt.: $\mu$ fixed z, then vice versa.\\
 
 \mytitle{Gaussian Mixture Models}
-Hard: $P(X|\mu,\Sigma,z)=\prod\limits_{n,k=1}^{N,K}\left[N(x_n|\mu_k,\Sigma_k)\right]^{z_{nk}}$\\
-Soft: $P(X,z|\mu,\Sigma,\pi)=\prod\limits_{n,k=1}^{N,K}(N(x_n|\mu_k,\Sigma_k))^{z_{nk}}\prod\limits_{k=1}^K\pi_k^{z_{nk}}$
+(before) hard: $P(X|\mu,\Sigma,z)=\prod\limits_{n,k=1}^{N,K}\left[N(x_n|\mu_k,\Sigma_k)\right]^{z_{nk}}$\\
+Soft: $P(X,z|\mu,\Sigma,\pi)=\prod\limits_{n,k=1}^{N,K}(N(x_n|\mu_k,\Sigma_k))^{z_{nk}}\prod\limits_{k=1}^K\pi_k^{z_{nk}}$\\
+$p(x_n|\theta)=\sum\limits_{k=1}^k\pi_kN(x_n|\mu_k,\Sigma_k)$.\\
+Non-conv., non-uniq., not bound.
 
 \mytitle{EM algorithm}
-Optimizing Low. bound\\
+Optimizing Low. bound ($\log$ is conc.)\\
 $q_{kn}^{(t)}=\frac{\pi_k^{(t)}N(x_n|\mu_k^{(t)},\Sigma_k^{(t)})}{\sum\limits_{k=1}^K\pi_k^{(t)}N(x_n|\mu_k^{(t)},\Sigma_k^{(t)})}$\\
 $\mu_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}x_n}{\sum_n q_{kn}^{(t)}}$\\
 $\Sigma_k^{(t+1)}=\frac{\sum_nq_{kn}^{(t)}(x_n-\mu_k^{(t+1)})(x_n-\mu_k^{(t+1)})^T}{\sum_nq_{kn}^{(t)}}$\\
-$\pi_k^{(t+1)}=\frac{1}{N}\sum_nq_{kn}^{(t)}$
+$\pi_k^{(t+1)}=\frac{1}{N}\sum_nq_{kn}^{(t)}$\\
+$\Sigma_k=\sigma^2I,\,\sigma\to0\Rightarrow$ k-means\\
+$q_{kn}^{(t)}=p(z_n=k|x_n,\theta^{(t)})$
 
 \mytitle{Matrix Factorizations}
-$X\approx WZ^T$, $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}\left[x_{dn}-(WZ^T)_{dn}\right]^2\to\inf$\\
+$X\colon D\times N$ (mov$\times$usrs), $X\approx WZ^T$, $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}\left[x_{dn}-(WZ^T)_{dn}\right]^2\to\inf$\\
 Reg.: $\|W\|_{Frob}+\|Z\|_{Frob}$ \\
-SGD, ALS
+SGD, ALS. Nonconv., non-unique.
 
 
 \mytitle{Text Representation Learning}
-Cooc. matrix, GloVe\\
-Skip-gram, FastText
+$w_i\to\vec{w}_i$ word$\rightarrow$vec.\\
+Cooc. matrix $X$, GloVe: $\frac{1}{2}\sum\limits_{(d,n)\in\Omega}f_{dn}\left[x_{dn}-(WZ^T)_{dn}\right]^2$, $f_{dn}=\min\{1,(n_{dn}/n_{\max})^{3/4}\}$\\
+Skip-gram: real/fake context, FastText: $\sum\limits_{s_n\mbox{\tiny sent.}}f(y_nWZ^Tx_n)$
 
 \mytitle{SVD and PCA}
 SVD: $X=USV^T$, $X\colon D\times N$, $U\colon D\times D$, $V\colon N\times N$\\
 $UU^T=U^TU=I$, $V^TV=VV^T=I$\\
-Compression, $\sum\limits_{i=K+1}s_i^2$\\
+Compression, $\|X-\hat{X}\|^2_F\geqslant \|X-U_KU)K^TX\|^2_F\geqslant\sum\limits_{i=K+1}s_i^2$, $rk\hat{X}=K$, $U_KU_K^TX=US^{(K)}V^T$\\
 PCA. Largest variance.
 
 \mytitle{NNs: Basics}
@@ -190,7 +200,7 @@ Stone-Weierstrass linear functions approximation.
 
 \mytitle{NNs: Backpropagation, Activation Functions}
 Function is non-convex.\\
-$z^({l})=(W^{(l)})^Tx^{(l-1)}+b^{(l)}$, $\x^{(l)}=f^({l})(x^({l-1}))=\phi(z^{(l)})$\\
+$z^{(l)}=(W^{(l)})^Tx^{(l-1)}+b^{(l)}$, $\x^{(l)}=f^({l})(x^({l-1}))=\phi(z^{(l)})$\\
 $\delta_j^{(l)}=\frac{\partial L_n}{\partial z_j^{(l)}}$, $\delta^{(l)}=W^{(l+1)}\delta^{(l+1)}\odot \phi'(z^{(l)})$\\
 $\delta^{(L+1)}=-2(y_n-x^{(L+1)})\phi'(z^{(L+1)})$\\
 $\frac{\partial L_n}{\partial w_{ij}^{(l)}}=\delta^{(l)}_jx_i^{(l-1)}$,
