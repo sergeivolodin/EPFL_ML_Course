@@ -1,6 +1,6 @@
-\documentclass[]{article}
+\documentclass[11pt]{article}
 \usepackage{multicol}
-\usepackage[a4paper, margin=0.5in]{geometry}
+\usepackage[a4paper, margin=0.1in]{geometry}
 \usepackage{blindtext}
 \usepackage{amssymb}
 \usepackage{parskip}
@@ -45,7 +45,8 @@ $f(\uu),\,\uu\in X$~--- {\em convex} $\Leftrightarrow$
 $\forall \uu, \vv\in X\,\forall \lambda\in \left(0,1\right)$\\
 $f(\lambda \uu + (1-\lambda) \vv)\leqslant \lambda f(\uu)+(1-\lambda)f(\vv)$\\
 ({\em strictly c.} $\Leftrightarrow$ $<$)
-$f$~--- strictly convex $\Rightarrow$ $\exists !$ global inf.
+$f$~--- strictly convex $\Rightarrow$ $\exists !$ global inf.\\
+Diff.: $L(u)\geqslant L(w)+\nabla L(w)^T(u-w)$ or $H\geqslant 0$
 
 \mytitle{Optimization}
 Optimization problem:
@@ -65,6 +66,7 @@ Convex set. Projection. Proj. GD. Constrainted $\rightarrow$ unconstr. problem. 
 \mytitle{Least Squares}
 Norm. eqs: $\nabla L(\w)=0=-\frac{1}{N}X^T(y-Xw)$
 $\Rightarrow$ $\w^*=(X^TX)^{-1}X^T\myvector{y}$
+Proj. to space $\bot$ to $ImX$
 
 \mytitle{Ill-conditioning}
 $D>N$ no inverse\\
@@ -74,7 +76,8 @@ Columns of $X$ are $\approx$ collin. $\Rightarrow$ SVD
 (MSE) $y_n=\x_n^T\w+\varepsilon_n$, $\varepsilon_n\sim N(0, \sigma^2)$\\
 $p(\y|X,\w)=\prod\limits_{n=1}^NN(y_n|\x_n^Tw,\sigma^2)$,\\
 $L_{\mbox{\tiny LL MLE}}=\log p(\y|X,\w)\approx \mathbb{E}\log p(y|\x,\w)$ $\Rightarrow$\\
-$\arg\max L_{\mbox{\tiny LL MLE}}=\arg\min L_{\mbox{\tiny MSE}}$
+$\arg\max L_{\mbox{\tiny LL MLE}}=\arg\min L_{\mbox{\tiny MSE}}$\\
+$N(y|\mu,\Sigma)=\frac{\exp\left[-\frac{1}{2}(y-\mu)^T\Sigma^{-1}(y-\mu)\right]}{\sqrt{(2\pi)^D\det\Sigma}}$
 
 \mytitle{Overfitting}
 Overfit: too complex model, fit the noise\\
@@ -85,10 +88,12 @@ Reg.: $\min\limits_\w L(\w)+\Omega(\w)$, last for complexity.\\
 L2: $+\lambda \|\w\|_2^2$
 
 \mytitle{Ridge Regression}
-$\w^*=(X^TX+\lambda'I)^{-1}X^T\y$, $2N\lambda=\lambda'$
+$\w^*=(X^TX+\lambda'I)^{-1}X^T\y$, $2N\lambda=\lambda'$\\
+View: $N$ prior on $w$\\
+Other reg.: dropout, earl. stop., shrinkage
 
 \mytitle{Lasso}
-$\Omega(\w)=\lambda \|w\|_1=\lambda\sum |w_i|$ $\Rightarrow$ sparse solution
+MSE + $\Omega(\w)=\lambda \|w\|_1=\lambda\sum |w_i|$ $\Rightarrow$ sparse solution\\
 
 \mytitle{Cross-Validation}
 $S$ finite, $D$ distr.
