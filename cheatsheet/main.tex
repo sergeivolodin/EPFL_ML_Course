@@ -198,8 +198,9 @@ Graph: $V=\{f_a\}\cup\{x_i\}$. $(f_a,x_i)\in E\Leftrightarrow x_i\in x_{\partial
 \mytitle{GMs: Inference and Sum-Product Algorithm}
 $f(z)=\sum\limits_{\sim z}f(z,...)$ (sum over all args but $z$)\\
 $\mu_{a\to i}=\sum\limits_{x_{\partial a\setminus x_i}}f_a(x_{\partial a})\prod\limits_{j\in N(a)\setminus i}\mu_{j\to a}(x_j)$\\
-$\mu_{i\to a}(x_i)=\prod\limits_{b\in N(i)\setminus i}\mu_{b\to i}(x_i)$. $N(\cdot )$ children\\
+$\mu_{i\to a}(x_i)=\prod\limits_{b\in N(i)\setminus a}\mu_{b\to i}(x_i)$. $N(\cdot )$ children\\
 $f_i(x_i)=\prod\limits_{a\in N(i)}\mu_{a\to i}(x_i)$.
-T.: $O\left(\exp \max\limits_{a\in A}|x_{\partial a}|\right)$
+T.: $O\left(\exp \max\limits_{a\in A}|x_{\partial a}|\right)$.\\
+Order: children first, then parents.
 \end{multicols*}
 \end{document}
